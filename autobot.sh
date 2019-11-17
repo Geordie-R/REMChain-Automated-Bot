@@ -762,6 +762,63 @@ if get_config_value telegram_chatid
   fi
 fi
 
+
+#-----------------------------------------------------------------------------------------------------
+# GET VOTE PERMISSION FROM THE USER OR TAKE IT FROM THE CONFIG FILE
+#-----------------------------------------------------------------------------------------------------
+
+if get_config_value vote_permission
+  then
+    vote_permission="$global_value"
+  else
+    if $at
+    then
+      exit 2
+    fi
+    read -p "Write the name of the permission which can perform your voting action e.g. active or vote etc: " -e vote_permission
+    echo "vote_permission=$vote_permission" >> "$config_file"
+    echo 
+  fi
+fi
+
+#-----------------------------------------------------------------------------------------------------
+# GET CLAIM PERMISSION FROM THE USER OR TAKE IT FROM THE CONFIG FILE
+#-----------------------------------------------------------------------------------------------------
+
+if get_config_value claim_permission
+  then
+    claim_permission="$global_value"
+  else
+    if $at
+    then
+      exit 2
+    fi
+    read -p "Write the name of the permission which can perform your claim rewards action e.g. active or claim etc: " -e claim_permission
+    echo "claim_permission=$claim_permission" >> "$config_file"
+    echo 
+  fi
+fi
+
+
+#-----------------------------------------------------------------------------------------------------
+# GET STAKING / DELEGATEBW PERMISSION FROM THE USER OR TAKE IT FROM THE CONFIG FILE
+#-----------------------------------------------------------------------------------------------------
+
+if get_config_value stake_permission
+  then
+    stake_permission="$global_value"
+  else
+    if $at
+    then
+      exit 2
+    fi
+    read -p "Write the name of the permission which can perform your delegatebw action e.g. stake or active etc: " -e stake_permission
+    echo "stake_permission=$stake_permission" >> "$config_file"
+    echo 
+  fi
+fi
+
+
 #-----------------------------------------------------------------------------------------------------
 # REMCLI COMMANDS FOR UNLOCKING YOUR WALLET
 #-----------------------------------------------------------------------------------------------------
@@ -775,7 +832,7 @@ if ! $at; then echo $output; fi
 
 if $auto_vote
 then
-  output=$(remcli system voteproducer prods $owneraccountname $bpaccountnames -p $owneraccountname@vote -f 2>&1)
+  output=$(remcli system voteproducer prods $owneraccountname $bpaccountnames -p $owneraccountname@$vote_permission -f 2>&1)
   if ! $at; then echo $output; fi
   if [[ ! "$output" =~ "executed transaction" ]]; then vote_failed=true; fi
 fi
@@ -787,7 +844,7 @@ fi
 if $auto_reward
 then
   previous=$(remcli get currency balance rem.token $owneraccountname | awk '{print $1}')
-  output=$(remcli system claimrewards $owneraccountname -x 120 -p $owneraccountname@claim -f 2>&1)
+  output=$(remcli system claimrewards $owneraccountname -x 120 -p $owneraccountname@$claim_permission -f 2>&1)
   if ! $at; then echo $output; fi
   if [[ "$output" =~ "already claimed rewards" ]]; then reward_failed=true; fi
   after=$(remcli get currency balance rem.token $owneraccountname  | awk '{print $1}')
@@ -806,7 +863,7 @@ then
   else
     restake_reward=$(echo "scale=4; ( $total_reward / 100 ) * $restakingpercentage" | bc )
   fi
-  output=$(remcli system delegatebw $owneraccountname $owneraccountname "$restake_reward REM" -x 120 -p $owneraccountname@stake -f 2>&1)
+  output=$(remcli system delegatebw $owneraccountname $owneraccountname "$restake_reward REM" -x 120 -p $owneraccountname@$stake_permission -f 2>&1)
   if ! $at; then echo $output; fi
   if [[ ! "$output" =~ "executed transaction" ]]; then restaking_failed=true; fi
 fi
