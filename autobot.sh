@@ -57,6 +57,15 @@ start_server_commands_path="/root/remblock/autobot/start_server_commands.sh"
 stop_server_commands_path="/root/remblock/autobot/stop_server_commands.sh"
 service_definition_path="/etc/systemd/system/autobot.service"
 
+
+#-----------------------------------------------------------------------------------------------------
+# PERMISSION VARS
+#-----------------------------------------------------------------------------------------------------
+
+vote_permission=""
+stake_permission=""
+claim_permission=""
+
 #-----------------------------------------------------------------------------------------------------
 # INITIATE BOOLEAN VARIABLES FOR THE AUTOBOT SCRIPT
 #-----------------------------------------------------------------------------------------------------
