@@ -752,7 +752,7 @@ then
     echo "telegram_token=$telegram_token" >> "$config_file"
     echo 
   fi
-
+fi
 #-----------------------------------------------------------------------------------------------------
 # GET TELEGRAM CHAT ID FROM THE USER OR TAKE IT FROM THE CONFIG FILE
 #-----------------------------------------------------------------------------------------------------
