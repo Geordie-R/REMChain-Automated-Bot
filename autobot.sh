@@ -769,7 +769,7 @@ if get_config_value telegram_chatid
     echo "telegram_chatid=$telegram_chatid" >> "$config_file"
     echo 
   fi
-fi
+        
 
 
 #-----------------------------------------------------------------------------------------------------
@@ -788,7 +788,7 @@ if get_config_value vote_permission
     echo "vote_permission=$vote_permission" >> "$config_file"
     echo 
   fi
-fi
+        
 
 #-----------------------------------------------------------------------------------------------------
 # GET CLAIM PERMISSION FROM THE USER OR TAKE IT FROM THE CONFIG FILE
@@ -805,8 +805,7 @@ if get_config_value claim_permission
     read -p "Write the name of the permission which can perform your claim rewards action e.g. active or claim etc: " -e claim_permission
     echo "claim_permission=$claim_permission" >> "$config_file"
     echo 
-  fi
-fi
+  fi    
 
 
 #-----------------------------------------------------------------------------------------------------
@@ -825,7 +824,7 @@ if get_config_value stake_permission
     echo "stake_permission=$stake_permission" >> "$config_file"
     echo 
   fi
-fi
+        
 
 
 #-----------------------------------------------------------------------------------------------------
